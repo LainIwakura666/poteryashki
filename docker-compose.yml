@@ -9,7 +9,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - ./pet-service/src/main/resources/v1_init_pet_schema.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./pet-service/src/main/resources/db/v1_init_pet_schema.sql:/docker-entrypoint-initdb.d/init.sql
       - pgdata_pet_service:/var/lib/postgresql/data
 
 volumes:
