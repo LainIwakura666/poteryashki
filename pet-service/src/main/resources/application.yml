@@ -1,11 +1,14 @@
+server:
+  port: 8081
+
 spring:
   application:
     name: pet-service
 
   datasource:
-    url: ${DB_URL:jdbc:postgresql://localhost:5432/pet_service_db}
-    username: ${DB_USER:myuser}
-    password: ${DB_PASSWORD:mypassword}
+    url: ${PET_DB_URL:jdbc:postgresql://localhost:5432/pet_service_db}
+    username: ${PET_DB_USER:myuser}
+    password: ${PET_DB_PASSWORD:mypassword}
 
   jpa:
     hibernate:
@@ -15,9 +18,6 @@ spring:
       hibernate:
         jdbc:
           time_zone: UTC
-
-server:
-  port: 8081
 
 logging:
   level:

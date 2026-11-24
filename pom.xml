@@ -25,6 +25,9 @@
 
     <modules>
         <module>pet-service</module>
+        <module>common</module>
+        <module>auth-service</module>
+        <module>api-gateway</module>
     </modules>
 
 </project>

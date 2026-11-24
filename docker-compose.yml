@@ -3,14 +3,38 @@ services:
     image: postgis/postgis:17-3.5-alpine
     container_name: postgres_pet_service
     environment:
-      POSTGRES_USER: myuser
-      POSTGRES_PASSWORD: mypassword
+      POSTGRES_USER: ${PET_DB_USER}
+      POSTGRES_PASSWORD: ${PET_DB_PASSWORD}
       POSTGRES_DB: pet_service_db
     ports:
       - "5432:5432"
     volumes:
       - ./pet-service/src/main/resources/db/v1_init_pet_schema.sql:/docker-entrypoint-initdb.d/init.sql
       - pgdata_pet_service:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${PET_DB_USER} -d pet_service_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  postgres-auth-service:
+    image: postgres:17-alpine
+    container_name: postgres_auth_service
+    environment:
+      POSTGRES_USER: ${AUTH_DB_USER}
+      POSTGRES_PASSWORD: ${AUTH_DB_PASSWORD}
+      POSTGRES_DB: auth_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - ./auth-service/src/main/resources/db/v1_init_auth_schema.sql:/docker-entrypoint-initdb.d/init.sql
+      - pgdata_auth_service:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${AUTH_DB_USER} -d auth_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
 
 volumes:
   pgdata_pet_service:
+  pgdata_auth_service:
